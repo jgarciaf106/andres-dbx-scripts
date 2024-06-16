@@ -218,7 +218,7 @@ class UCXReportGenerator:
 
         return html
 
-    def _get_tables_and_views(self):
+    def _get_html_tables_and_views(self):
         html = ""
         html_options = {
             "SYNC": """<li>Your workspace has <strong>{input_table_count}</strong> external tables. <strong>No need data replication is needed to migrate those.</strong> You will be able to migrate them to UC using the <strong><a href={input_official_doc}>SYNC command</a></strong> (as long as you keep them external, which is fine)</li>""",
@@ -260,7 +260,7 @@ class UCXReportGenerator:
 
         return html
 
-    def _get_tables_and_view_rec(self):
+    def _get_html_tables_and_view_rec(self):
         azure_rec = ""
         aws_rec = ""
         if self.docs.config.is_azure:
@@ -283,6 +283,26 @@ class UCXReportGenerator:
                 <li>If the HMS table is non-Delta+partitioned, and you register as UC external, there will be a performance penalty in the sense that UC does not store external table partition metadata for non-Delta tables. More info <a href="https://docs.google.com/presentation/d/1U7_66n8vHf0esvRGzXZ229idlhLepGGrn8Tq5jBPmCs/edit#slide=id.g2b253d1c1b3_0_5107">here</a> and <a href="https://databricks.slack.com/archives/C027U33QZ9R/p1685021517795909">here</a>.</li>
         """
 
+        return html
+
+    def _get_html_storage_locations(self):
+        html = "<li>WIP</li>"
+        return html
+
+    def _get_html_mount_points(self):
+        html = "<li>WIP</li>"
+        return html
+
+    def _get_html_compute(self):
+        html = "<li>WIP</li>"
+        return html
+
+    def _get_html_dlt(self):
+        html = "<li>WIP</li>"
+        return html
+
+    def _get_html_identity_and_access(self):
+        html = "<li>WIP</li>"
         return html
 
     def _set_html_report(self):
@@ -384,35 +404,37 @@ class UCXReportGenerator:
 
                     <h2>Tables and Views</h2>
                     <ul>                      
-                        {self._get_tables_and_views()}
+                        {self._get_html_tables_and_views()}
                     </ul>
 
                     <h3>Additional Recommendations:</h3>
                     <ul>
-                        {self._get_tables_and_view_rec()}
+                        {self._get_html_tables_and_view_rec()}
                     </ul>
 
                     <h2>Storage Locations</h2>
                     <ul>
-                        wip
+                        {self._get_html_storage_locations()}
                     </ul>
 
                     <h2>Mount Points</h2>
                     <ul>
-                        wip
+                        {self._get_html_mount_points()}
                     </ul>
 
                     <h2>Clusters, Jobs, Submits</h2>
                     <ul>
-                       wip
+                       {self._get_html_compute()}
                     </ul>
 
                     <h2>DLT</h2>
-                    <p>No DLT pipelines found.</p>
+                    <ul>
+                       {self._get_html_dlt()}
+                    </ul>
 
                     <h2>Permissions/Grants/Groups</h2>
                     <ul>
-                        wip
+                        {self._get_html_identity_and_access()}
                     </ul>
 
                     <br>       
