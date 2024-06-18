@@ -264,23 +264,23 @@ class UCXReportGenerator:
         azure_rec = ""
         aws_rec = ""
         if self.docs.config.is_azure:
-            azure_rec = "<li>If data is in ADLS 1 or wasb then CTAS is required (Azure only)</li>"
+            azure_rec = "<li>If data is in <strong>ADLS 1</strong> or <strong>wasb</strong> then <strong>CTAS</strong> is required (Azure only)</li>"
         if self.docs.config.is_aws:
-            aws_rec = "<ul><li>Also SYNC needs to be run by a cluster with instance profile (AWS only).</li></ul>"
+            aws_rec = "<ul><li>Also <strong>SYNC</strong> needs to be run by a cluster with instance profile (AWS only).</li></ul>"
 
         html = f"""
-                <li>SYNC requires UC external location to exist beforehand, pointing to the location or a parent location.{aws_rec}</li>           
-                <li>SYNC forces to maintain same table name. If table name change is required, use CTAS instead of SYNC.</li>
-                <li>SYNC when the source table HMS type = MANAGED requires some extra steps. See steps above.</li>
-                <li>SYNC with a table with mount location as source uses the real location (not the mnt point) for the new location. This is nice because we want to sunset those mount points.</li>
-                <li>UNSUPPORTEDTables, indicates that may break downstream or upstream dependencies if not accounted for.</li>
-                <li>All data in DBFS ROOT needs to be moved somewhere else.</li>
-                <li>DEEP CLONing a parquet table creates a Delta Table, not parquet. This may not be what the customer wants in some cases. Ie if some external dependency assumes parquet format.</li>
-                <li><a href="https://www.databricks.com/blog/migrating-tables-hive-metastore-unity-catalog-metastore">Scala code to convert HMS managed to HMS external is in the Appendix section of this article. Just need to USE CATALOG hive_metastore; before running the Scala.</a></li>
-                <li>DEEP CLONE keeps metadata while CTAS loses it, creating a brand new table.</li>
-                <li>DEEP CLONE also preserves the existing partitioning scheme. If that is not the desired outcome, please use CTAS.</li>
+                <li><strong>SYNC</strong> requires UC external location to exist beforehand, pointing to the location or a parent location.{aws_rec}</li>           
+                <li><strong>SYNC</strong> forces to maintain same table name. If table name change is required, use <strong>CTAS</strong> instead of <strong>SYNC</strong>.</li>
+                <li><strong>SYNC</strong> when the source table HMS type = <strong>MANAGED</strong> requires some extra steps. See steps above.</li>
+                <li><strong>SYNC</strong> with a table with mount location as source uses the real location (not the mnt point) for the new location. This is nice because we want to sunset those mount points.</li>
+                <li><strong>UNSUPPORTED</strong> Tables, indicates that may break downstream or upstream dependencies if not accounted for.</li>
+                <li>All data in <strong>DBFS ROOT</strong> needs to be moved somewhere else.</li>
+                <li><strong>DEEP CLONing</strong> a parquet table creates a Delta Table, not parquet. This may not be what the customer wants in some cases. Ie if some external dependency assumes parquet format.</li>
+                <li><a href="https://www.databricks.com/blog/migrating-tables-hive-metastore-unity-catalog-metastore">Scala code to convert HMS managed to HMS external is in the Appendix section of this article. Just need to <strong>USE CATALOG</strong> hive_metastore; before running the Scala.</a></li>
+                <li><strong>DEEP CLONE</strong> keeps metadata while <strong>CTAS</strong> loses it, creating a brand new table.</li>
+                <li><strong>DEEP CLONE</strong> also preserves the existing partitioning scheme. If that is not the desired outcome, please use CTAS.</li>
                 {azure_rec}
-                <li>If the HMS table is non-Delta+partitioned, and you register as UC external, there will be a performance penalty in the sense that UC does not store external table partition metadata for non-Delta tables. More info <a href="https://docs.google.com/presentation/d/1U7_66n8vHf0esvRGzXZ229idlhLepGGrn8Tq5jBPmCs/edit#slide=id.g2b253d1c1b3_0_5107">here</a> and <a href="https://databricks.slack.com/archives/C027U33QZ9R/p1685021517795909">here</a>.</li>
+                <li>If the <strong>HMS</strong> table is non-Delta+partitioned, and you register as UC external, there will be a performance penalty in the sense that UC does not store external table partition metadata for non-Delta tables. More info <a href="https://docs.google.com/presentation/d/1U7_66n8vHf0esvRGzXZ229idlhLepGGrn8Tq5jBPmCs/edit#slide=id.g2b253d1c1b3_0_5107">here</a> and <a href="https://databricks.slack.com/archives/C027U33QZ9R/p1685021517795909">here</a>.</li>
         """
 
         return html
